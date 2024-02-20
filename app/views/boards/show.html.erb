@@ -1,0 +1,87 @@
+<div>
+  <div>
+    <h1>
+      Board #<%= @the_board.id %> 
+    </h1>
+
+<h2> Add Post <h2>
+<div>
+<form action="/insert_post" method="post">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="query_title" required><br>
+    
+    <label for="body">Body:</label><br>
+    <textarea id="body" name="query_body" rows="5" required></textarea><br>
+    
+    <label for="expires_on">Expiration Date:</label><br>
+    <input type="date" id="expires_on" name="query_expires_on" required><br>
+    
+    <label for="board_id">Board ID:</label><br>
+    <input type="text" id="board_id" name="query_board_id" required><br>
+    
+    <button type="submit">Add Post</button>
+  </form>
+   </div>
+
+
+
+    <div>
+      <div>
+        <a href="/boards">
+          Go back
+        </a>
+      </div>
+
+    </div>
+
+    <dl>
+      <dt>
+        Name
+      </dt>
+      <dd>
+        <%= @the_board.name %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_board.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_board.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit board
+    </h2>
+
+    <form action="/modify_board/<%= @the_board.id %>"  method="post" >
+      <div>
+        <label for="name_box">
+          Name
+        </label>
+
+        <input type="text" id="name_box" name="query_name" value="<%= @the_board.name %>">
+      </div>
+
+      <button>
+        Update board
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
