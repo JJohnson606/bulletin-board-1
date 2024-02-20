@@ -1,70 +1,156 @@
+<!--<div>
+  <div>
+    <h1><%#= @the_board.name %></h1>
+
+    <h2>Add Post</h2>
+    </div>
+      <form action="/insert_post" method="post">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="query_title" required><br>
+
+        <label for="body">Body:</label><br>
+        <textarea id="body" name="query_body" rows="5" required></textarea><br>
+
+        <label for="expires_on">Expiration Date:</label><br>
+        <input type="date" id="expires_on" name="query_expires_on" required><br>
+
+        <label for="board_id">Board:</label><br>
+        <input type="text" id="board_id" name="query_board_id" value= "<%#@the_board.id>" required><br>
+       
+        <button type="submit">Add Post</button>
+      </form>
+    </div>
+  </div>
+
+<%#matching_post = Post.where(board_id: @the_board.id)%>-->
+<!--  <div>
+    <h3>Active Posts</h3>
+   
+   
+    <%# active_post = matching_post.where("expires_on  >= ?", Date.today) %>-->
+<!--    <table border= "1">
+   
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Body</th>
+          <th>Posted on</th>
+          <th>Expires on</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%# active_post.each do |post| %>-->
+<!--          <tr>
+            <td><%#= post.title %></td>
+            <td><%#= post.body %></td>
+            <td><%#= post.created_at.strftime("%b %d, %Y") %> </td>
+            <td><%#= post.expires_on.strftime("%b %d, %Y") %> </td>
+          </tr>
+          <%#end%>-->
+<!--      </tbody>
+    </table>
+    
+<%# expired_post = matching_post.where("expires_on <= ?", Time.now)%>-->
+<!--    <h3>Expired Posts</h3>
+    <table border= '1'>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Body</th>
+          <th>Posted on</th>
+          <th>Expires on</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%# expired_post.each do |post| %>-->
+<!--          <tr>
+            <td><%#= post.title %></td>
+            <td><%#= post.body %></td>
+            <td><%#= post.created_at.strftime("%b %d, %Y") %></td>
+            <td><%#= post.expires_on.strftime("%b %d, %Y") %></td>
+          </tr>
+       <%# end %>-->
+<!--      </tbody>
+    </table>
+
+  </div>
+</div>
+<hr>
+
+
+-->
+
 <div>
   <div>
-    <h1>
-       <%= @the_board.name %> 
-    </h1>
+    <h1><%= @the_board.name %></h1>
 
-<h2> Add Post <h2>
-<div>
-<form action="/insert_post" method="post">
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="query_title" required><br>
-    
-    <label for="body">Body:</label><br>
-    <textarea id="body" name="query_body" rows="5" required></textarea><br>
-    
-    <label for="expires_on">Expiration Date:</label><br>
-    <input type="date" id="expires_on" name="query_expires_on" required><br>
-    
-    <label for="board_id">Board :</label><br>
-    <input type="text" id="board_id" name="query_board_id" required><br>
-    
-    <button type="submit">Add Post</button>
-  </form>
-   </div>
-<div>
+    <h2>Add Post</h2>
+    <form action="/insert_post" method="post">
+      <label for="title"> Title </label><br>
+      <input type="text" id="title" name="query_title" required><br>
 
-<h3> Active Post</h3>
-</div>
+      <label for="body"> Body </label><br>
+      <textarea id="body" name="query_body" rows="5" required></textarea><br>
 
-<% matching_post = Post.where({ board_id: @the_board.id})%>
+      <label for="expires_on_box"> Expires on </label><br>
+      <input type="date" id="expires_on_box" name="query_expires_on" required><br>
 
-     <% matching_post.each do |post|%>
-    <dl>
-      <dt>
-        Title
-      </dt>
-      <dd>
-        <%= post.title %>
-      </dd>
-
-
-      <dt>
-        Body
-      </dt>
-      <dd>
-        <%= post.body %> 
-      </dd>
-
-
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(post.created_at) %> ago
-      </dd>
-
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(post.updated_at) %> ago
-      </dd>
-    </dl>
+      <label for="board_id"></label><br>
+      <input type="hidden" id="board_id" name="query_board_id" value="<%= @the_board.id %>" required><br>
+      <button>
+    Add post
+  </button>
+    </form>
   </div>
-  <%end%>
+
+  <div>
+    <h3>Active Posts</h3>
+    <% active_posts = Post.where("board_id = ? AND expires_on >= ?", @the_board.id, Date.today) %>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Body</th>
+          <th>Posted on</th>
+          <th>Expires on</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% active_posts.each do |post| %>
+          <tr>
+            <td><%= post.title %></td>
+            <td><%= post.body %></td>
+            <td><%= post.created_at.strftime("%b %d, %Y") %></td>
+            <td><%= post.expires_on.strftime("%b %d, %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <h3>Expired Posts</h3>
+    <% expired_posts = Post.where("board_id = ? AND expires_on < ?", @the_board.id, Date.today) %>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Body</th>
+          <th>Posted on</th>
+          <th>Expires on</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% expired_posts.each do |post| %>
+          <tr>
+            <td><%= post.title %></td>
+            <td><%= post.body %></td>
+            <td><%= post.created_at.strftime("%b %d, %Y") %></td>
+            <td><%= post.expires_on.strftime("%b %d, %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<h3>Expired Post</h3>
-
 <hr>
